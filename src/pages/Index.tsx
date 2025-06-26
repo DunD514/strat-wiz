@@ -20,16 +20,27 @@ export interface StrategyData {
     budget: number;
     timeline: string;
     expectedReach: number;
+    description?: string;
+    costBreakdown?: string;
   }>;
   budgetAllocation: Array<{
     category: string;
     amount: number;
     percentage: number;
+    explanation?: string;
   }>;
   targetSegments: Array<{
     name: string;
     size: number;
     characteristics: string[];
+    reasoning?: string;
+  }>;
+  actionableTips?: string[];
+  strategyOptions?: Array<{
+    name: string;
+    description: string;
+    pros: string[];
+    cons: string[];
   }>;
 }
 

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { Upload, MessageSquare, DollarSign, Users, TrendingUp, FileText, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { UserAnswers, StrategyData } from "@/pages/Index";
+import { generateRealisticStrategy, analyzeCSVData } from "@/services/aiStrategyService";
 
 interface OnboardingFlowProps {
   onComplete: (answers: UserAnswers, csvData: any[], strategy: StrategyData) => void;
@@ -81,63 +81,28 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
   const generateStrategy = async () => {
     setIsProcessing(true);
     
-    // Simulate AI processing with a delay
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Generate mock strategy data based on user inputs
-    const mockStrategy: StrategyData = {
-      campaigns: [
-        {
-          name: "Email Marketing Campaign",
-          channel: "Email",
-          budget: Math.floor(parseFloat(answers.budget) * 0.3) || 1000,
-          timeline: "8 weeks",
-          expectedReach: 15000
-        },
-        {
-          name: "Social Media Advertising",
-          channel: "Social",
-          budget: Math.floor(parseFloat(answers.budget) * 0.4) || 1500,
-          timeline: "12 weeks",
-          expectedReach: 25000
-        },
-        {
-          name: "SEO Content Strategy",
-          channel: "SEO",
-          budget: Math.floor(parseFloat(answers.budget) * 0.2) || 800,
-          timeline: "16 weeks",
-          expectedReach: 10000
-        },
-        {
-          name: "PPC Advertising",
-          channel: "PPC",
-          budget: Math.floor(parseFloat(answers.budget) * 0.1) || 500,
-          timeline: "4 weeks",
-          expectedReach: 8000
-        }
-      ],
-      budgetAllocation: [
-        { category: "Social Media", amount: Math.floor(parseFloat(answers.budget) * 0.4) || 1500, percentage: 40 },
-        { category: "Email Marketing", amount: Math.floor(parseFloat(answers.budget) * 0.3) || 1000, percentage: 30 },
-        { category: "SEO", amount: Math.floor(parseFloat(answers.budget) * 0.2) || 800, percentage: 20 },
-        { category: "PPC", amount: Math.floor(parseFloat(answers.budget) * 0.1) || 500, percentage: 10 }
-      ],
-      targetSegments: [
-        {
-          name: "Primary Segment",
-          size: 5000,
-          characteristics: ["Age 25-40", "Tech-savvy", "High income"]
-        },
-        {
-          name: "Secondary Segment", 
-          size: 3000,
-          characteristics: ["Age 30-55", "Budget-conscious", "Quality-focused"]
-        }
-      ]
-    };
-
-    setIsProcessing(false);
-    onComplete(answers, csvData || [], mockStrategy);
+    try {
+      const csvInsight = analyzeCSVData(csvData || []);
+      console.log('CSV Analysis:', csvInsight);
+      
+      toast({
+        title: "Generating Strategy",
+        description: "AI is analyzing your data and creating a personalized marketing plan...",
+      });
+      
+      const strategy = await generateRealisticStrategy(answers, csvInsight);
+      console.log('Generated Strategy:', strategy);
+      
+      onComplete(answers, csvData || [], strategy);
+    } catch (error) {
+      console.error('Error generating strategy:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate strategy. Please try again.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+    }
   };
 
   const isStepComplete = (step: number) => {

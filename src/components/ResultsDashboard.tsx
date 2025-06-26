@@ -9,7 +9,7 @@ import {
 } from 'recharts';
 import { 
   DollarSign, Users, TrendingUp, Calendar, Mail, Share2, 
-  Search, MousePointer, ArrowLeft, Download 
+  Search, MousePointer, ArrowLeft, Download, Lightbulb, Target
 } from "lucide-react";
 import { StrategyData } from "@/pages/Index";
 
@@ -50,8 +50,8 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Your Marketing Strategy</h1>
-            <p className="text-gray-600">AI-powered recommendations tailored to your business</p>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">Your AI-Generated Marketing Strategy</h1>
+            <p className="text-gray-600">Personalized recommendations based on your business data</p>
           </div>
           <div className="flex space-x-3">
             <Button variant="outline" onClick={onStartOver}>
@@ -64,6 +64,80 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
             </Button>
           </div>
         </div>
+
+        {/* Actionable Tips Section */}
+        {strategy.actionableTips && strategy.actionableTips.length > 0 && (
+          <Card className="mb-8 border-l-4 border-l-orange-500">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Lightbulb className="mr-2 h-5 w-5 text-orange-500" />
+                Actionable Tips to Get Started
+              </CardTitle>
+              <CardDescription>Follow these recommendations for the best results</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-3">
+                {strategy.actionableTips.map((tip, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="bg-orange-100 text-orange-800 rounded-full w-6 h-6 flex items-center justify-center text-sm font-medium mr-3 mt-0.5 flex-shrink-0">
+                      {index + 1}
+                    </span>
+                    <span className="text-gray-700">{tip}</span>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Strategy Options */}
+        {strategy.strategyOptions && strategy.strategyOptions.length > 0 && (
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Target className="mr-2 h-5 w-5 text-purple-500" />
+                Strategy Options to Consider
+              </CardTitle>
+              <CardDescription>Choose the approach that best fits your business goals</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {strategy.strategyOptions.map((option, index) => (
+                  <div key={index} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <h3 className="font-semibold text-lg mb-2">{option.name}</h3>
+                    <p className="text-gray-600 mb-4">{option.description}</p>
+                    
+                    <div className="space-y-3">
+                      <div>
+                        <h4 className="font-medium text-green-700 mb-1">Pros:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {option.pros.map((pro, proIndex) => (
+                            <li key={proIndex} className="flex items-start">
+                              <span className="text-green-500 mr-2">✓</span>
+                              {pro}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-red-700 mb-1">Cons:</h4>
+                        <ul className="text-sm text-gray-600 space-y-1">
+                          {option.cons.map((con, conIndex) => (
+                            <li key={conIndex} className="flex items-start">
+                              <span className="text-red-500 mr-2">•</span>
+                              {con}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
 
         {/* Overview Cards */}
         <div className="grid md:grid-cols-4 gap-6 mb-8">
@@ -102,12 +176,15 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
 
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Timeline</CardTitle>
+              <CardTitle className="text-sm font-medium">Avg Timeline</CardTitle>
               <Calendar className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">16</div>
-              <p className="text-xs text-muted-foreground">Weeks to full scale</p>
+              <div className="text-2xl font-bold">
+                {Math.round(strategy.campaigns.reduce((acc, campaign) => 
+                  acc + parseInt(campaign.timeline.split(' ')[0]), 0) / strategy.campaigns.length)}
+              </div>
+              <p className="text-xs text-muted-foreground">Weeks average</p>
             </CardContent>
           </Card>
         </div>
@@ -116,8 +193,8 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
           {/* Budget Allocation Chart */}
           <Card>
             <CardHeader>
-              <CardTitle>Budget Allocation</CardTitle>
-              <CardDescription>Distribution of your marketing spend</CardDescription>
+              <CardTitle>Budget Allocation & Reasoning</CardTitle>
+              <CardDescription>How your marketing budget will be distributed</CardDescription>
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -140,6 +217,16 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
                   <Legend />
                 </PieChart>
               </ResponsiveContainer>
+              
+              {/* Budget Explanations */}
+              <div className="mt-4 space-y-2">
+                {strategy.budgetAllocation.map((item, index) => (
+                  <div key={index} className="flex justify-between items-start text-sm">
+                    <span className="font-medium">{item.category}:</span>
+                    <span className="text-gray-600 max-w-xs text-right">{item.explanation}</span>
+                  </div>
+                ))}
+              </div>
             </CardContent>
           </Card>
 
@@ -166,8 +253,8 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
         {/* Campaign Details */}
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>Campaign Strategies</CardTitle>
-            <CardDescription>Detailed breakdown of your recommended campaigns</CardDescription>
+            <CardTitle>Detailed Campaign Breakdown</CardTitle>
+            <CardDescription>Comprehensive analysis of each recommended campaign</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid gap-6">
@@ -189,7 +276,11 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
                     </div>
                   </div>
                   
-                  <div className="grid md:grid-cols-3 gap-4">
+                  {campaign.description && (
+                    <p className="text-gray-700 mb-4">{campaign.description}</p>
+                  )}
+                  
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
                     <div>
                       <p className="text-sm font-medium text-gray-600">Timeline</p>
                       <p className="text-lg">{campaign.timeline}</p>
@@ -202,7 +293,20 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
                       <p className="text-sm font-medium text-gray-600">Cost per Reach</p>
                       <p className="text-lg">${(campaign.budget / campaign.expectedReach).toFixed(2)}</p>
                     </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-600">ROI Potential</p>
+                      <p className="text-lg">
+                        {(campaign.expectedReach / campaign.budget * 100).toFixed(0)}%
+                      </p>
+                    </div>
                   </div>
+                  
+                  {campaign.costBreakdown && (
+                    <div className="bg-gray-50 rounded-lg p-4">
+                      <h4 className="font-medium text-gray-800 mb-2">How Your Money Will Be Spent:</h4>
+                      <p className="text-gray-700">{campaign.costBreakdown}</p>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -212,8 +316,8 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
         {/* Target Segments */}
         <Card>
           <CardHeader>
-            <CardTitle>Target Audience Segments</CardTitle>
-            <CardDescription>Identified customer segments for your campaigns</CardDescription>
+            <CardTitle>Target Audience Analysis</CardTitle>
+            <CardDescription>AI-identified customer segments based on your data</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
@@ -223,15 +327,25 @@ const ResultsDashboard = ({ strategy, onStartOver }: ResultsDashboardProps) => {
                     <h3 className="font-semibold text-lg">{segment.name}</h3>
                     <Badge variant="outline">{segment.size.toLocaleString()} people</Badge>
                   </div>
-                  <div className="space-y-2">
-                    <p className="text-sm font-medium text-gray-600">Key Characteristics:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {segment.characteristics.map((char, charIndex) => (
-                        <Badge key={charIndex} variant="secondary" className="text-xs">
-                          {char}
-                        </Badge>
-                      ))}
+                  
+                  <div className="space-y-3">
+                    <div>
+                      <p className="text-sm font-medium text-gray-600 mb-2">Key Characteristics:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {segment.characteristics.map((char, charIndex) => (
+                          <Badge key={charIndex} variant="secondary" className="text-xs">
+                            {char}
+                          </Badge>
+                        ))}
+                      </div>
                     </div>
+                    
+                    {segment.reasoning && (
+                      <div>
+                        <p className="text-sm font-medium text-gray-600 mb-1">Why This Segment Matters:</p>
+                        <p className="text-sm text-gray-700">{segment.reasoning}</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
