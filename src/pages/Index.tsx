@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brain, Upload, BarChart3, Target, ArrowRight, Sparkles } from "lucide-react";
+import { Brain, Upload, BarChart3, Target, ArrowRight, Sparkles, Zap, TrendingUp } from "lucide-react";
 import OnboardingFlow from "@/components/OnboardingFlow";
 import ResultsDashboard from "@/components/ResultsDashboard";
 
@@ -77,86 +77,111 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 relative overflow-hidden">
+      {/* Background Elements */}
+      <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))] -z-10" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-blue-400/20 to-purple-600/20 rounded-full blur-3xl -z-10" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-indigo-400/20 to-cyan-600/20 rounded-full blur-3xl -z-10" />
+
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <div className="flex justify-center mb-6">
-            <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl shadow-lg">
-              <Brain className="h-8 w-8 text-white" />
+      <div className="container mx-auto px-4 py-20">
+        <div className="text-center max-w-5xl mx-auto mb-24">
+          <div className="flex justify-center mb-8">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl blur-lg opacity-75"></div>
+              <div className="relative p-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl shadow-2xl">
+                <Brain className="h-10 w-10 text-white" />
+              </div>
             </div>
           </div>
-          <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-            Strategic AI Marketing Planner
+          
+          <h1 className="text-6xl md:text-7xl font-bold mb-8 tracking-tight">
+            <span className="bg-gradient-to-r from-slate-900 via-blue-900 to-purple-900 bg-clip-text text-transparent">
+              Strategic AI
+            </span>
+            <br />
+            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Marketing Planner
+            </span>
           </h1>
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Transform your business data into actionable marketing strategies. Get personalized campaigns, 
-            budget allocation, and growth insights powered by AI.
+          
+          <p className="text-xl md:text-2xl text-slate-600 mb-12 leading-relaxed max-w-3xl mx-auto font-light">
+            Transform your business data into <span className="font-semibold text-slate-800">actionable marketing strategies</span>. 
+            Get personalized campaigns, budget allocation, and growth insights powered by AI.
           </p>
+          
           <Button 
             onClick={handleStartPlanning}
             size="lg" 
-            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-200"
+            className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-12 py-6 text-xl font-semibold shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 rounded-2xl"
           >
-            Start Planning <ArrowRight className="ml-2 h-5 w-5" />
+            Start Planning <ArrowRight className="ml-3 h-6 w-6" />
           </Button>
         </div>
 
         {/* How It Works */}
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">How It Works</h2>
-          <div className="grid md:grid-cols-4 gap-8">
-            <Card className="text-center hover:shadow-lg transition-shadow duration-200 border-0 shadow-md">
-              <CardHeader>
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="h-8 w-8 text-blue-600" />
+        <div className="max-w-7xl mx-auto mb-24">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">How It Works</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Four simple steps to your personalized marketing strategy</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-indigo-50 opacity-50" />
+              <CardHeader className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Sparkles className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-lg">Answer Questions</CardTitle>
+                <CardTitle className="text-xl font-bold text-slate-800">Answer Questions</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-600">
+              <CardContent className="relative">
+                <CardDescription className="text-slate-600 text-base leading-relaxed">
                   Tell us about your product, budget, customers, and growth goals through our AI chatbot.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-200 border-0 shadow-md">
-              <CardHeader>
-                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Upload className="h-8 w-8 text-green-600" />
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-green-50 opacity-50" />
+              <CardHeader className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Upload className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-lg">Upload Data</CardTitle>
+                <CardTitle className="text-xl font-bold text-slate-800">Upload Data</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-600">
+              <CardContent className="relative">
+                <CardDescription className="text-slate-600 text-base leading-relaxed">
                   Upload your CSV with product/customer data for deeper insights and personalized recommendations.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-200 border-0 shadow-md">
-              <CardHeader>
-                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Brain className="h-8 w-8 text-purple-600" />
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-violet-50 opacity-50" />
+              <CardHeader className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-violet-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Zap className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-lg">AI Processing</CardTitle>
+                <CardTitle className="text-xl font-bold text-slate-800">AI Processing</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-600">
+              <CardContent className="relative">
+                <CardDescription className="text-slate-600 text-base leading-relaxed">
                   Our AI analyzes your data and generates detailed marketing strategies tailored to your business.
                 </CardDescription>
               </CardContent>
             </Card>
 
-            <Card className="text-center hover:shadow-lg transition-shadow duration-200 border-0 shadow-md">
-              <CardHeader>
-                <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="h-8 w-8 text-orange-600" />
+            <Card className="group hover:shadow-2xl transition-all duration-300 border-0 shadow-lg bg-white/80 backdrop-blur-sm hover:-translate-y-2 relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-orange-50 to-amber-50 opacity-50" />
+              <CardHeader className="relative">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <BarChart3 className="h-10 w-10 text-white" />
                 </div>
-                <CardTitle className="text-lg">Get Results</CardTitle>
+                <CardTitle className="text-xl font-bold text-slate-800">Get Results</CardTitle>
               </CardHeader>
-              <CardContent>
-                <CardDescription className="text-gray-600">
+              <CardContent className="relative">
+                <CardDescription className="text-slate-600 text-base leading-relaxed">
                   Receive actionable plans with campaigns, budget allocation, timelines, and expected results.
                 </CardDescription>
               </CardContent>
@@ -165,35 +190,62 @@ const Index = () => {
         </div>
 
         {/* Features */}
-        <div className="max-w-4xl mx-auto mt-20">
-          <h2 className="text-3xl font-bold text-center mb-12 text-gray-800">What You'll Get</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="flex items-start space-x-4">
-              <Target className="h-6 w-6 text-blue-600 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Targeted Campaigns</h3>
-                <p className="text-gray-600">Email, social media, SEO, and paid advertising campaigns tailored to your audience.</p>
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-slate-800 mb-6">What You'll Get</h2>
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">Comprehensive marketing insights tailored to your business</p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <div className="flex items-start space-x-6 group">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Target className="h-7 w-7 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-3 text-slate-800">Targeted Campaigns</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed">Email, social media, SEO, and paid advertising campaigns tailored to your audience with realistic budgets and timelines.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-6 group">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <BarChart3 className="h-7 w-7 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-3 text-slate-800">Smart Budget Allocation</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed">Intelligent distribution of your marketing budget across channels for maximum ROI with detailed cost breakdowns.</p>
+                </div>
               </div>
             </div>
-            <div className="flex items-start space-x-4">
-              <BarChart3 className="h-6 w-6 text-green-600 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Budget Allocation</h3>
-                <p className="text-gray-600">Smart distribution of your marketing budget across channels for maximum ROI.</p>
+            
+            <div className="space-y-8">
+              <div className="flex items-start space-x-6 group">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <Brain className="h-7 w-7 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-3 text-slate-800">AI-Powered Insights</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed">Data-driven recommendations based on your specific business context and industry benchmarks.</p>
+                </div>
               </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <Brain className="h-6 w-6 text-purple-600 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-lg mb-2">AI-Powered Insights</h3>
-                <p className="text-gray-600">Data-driven recommendations based on your specific business context.</p>
-              </div>
-            </div>
-            <div className="flex items-start space-x-4">
-              <Sparkles className="h-6 w-6 text-orange-600 mt-1 flex-shrink-0" />
-              <div>
-                <h3 className="font-semibold text-lg mb-2">Expected Results</h3>
-                <p className="text-gray-600">Projected reach, engagement, and conversion rates for each campaign.</p>
+              
+              <div className="flex items-start space-x-6 group">
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <TrendingUp className="h-7 w-7 text-white" />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-3 text-slate-800">Realistic Projections</h3>
+                  <p className="text-slate-600 text-lg leading-relaxed">Accurate reach, engagement, and conversion rate projections based on real market data and industry standards.</p>
+                </div>
               </div>
             </div>
           </div>
